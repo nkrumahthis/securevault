@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 export function TopNavigation() {
   return (
     <motion.nav
-      className="py-2 px-6 flex justify-between items-center border-b-[0.5px] border-slate-400"
+      className="py-2 px-6 flex justify-between items-center border-b-[0.5px] border-slate-300 shadow-md"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -23,21 +23,21 @@ export function TopNavigation() {
         <span className="text-xl font-semibold text-gray-900">SecureVault</span>
       </Link>
       <div className="hidden md:flex space-x-6">
-        <Link href="#features" className="text-gray-600 hover:text-purple-600 transition-colors">
+        <Link href="#features" className="text-black hover:text-purple-600 transition-colors">
           Features
         </Link>
-        <Link href="#pricing" className="text-gray-600 hover:text-purple-600 transition-colors">
+        <Link href="#pricing" className="text-black hover:text-purple-600 transition-colors">
           Pricing
         </Link>
-        <Link href="#faq" className="text-gray-600 hover:text-purple-600 transition-colors">
+        <Link href="#faq" className="text-black hover:text-purple-600 transition-colors">
           FAQ
         </Link>
       </div>
       <div className="flex items-center space-x-4">
-        <Button variant="ghost" className="hidden md:inline-flex">
+        <Button variant="ghost" className="transition-all hidden hover:text-purple-600 md:inline-flex">
           Log in
         </Button>
-        <Button>Get Started</Button>
+        <Button className='hover:bg-purple-600 transition-all'>Get Started</Button>
       </div>
     </motion.nav>
   )

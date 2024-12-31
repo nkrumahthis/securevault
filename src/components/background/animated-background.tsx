@@ -6,7 +6,7 @@ export function AnimatedBackground() {
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden">
       <motion.div
-        className="absolute inset-0 bg-gradient-to-b from-white to-gray-50"
+        className="absolute inset-0 bg-gradient-to-b from-[#f9f3ff] to-white"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
