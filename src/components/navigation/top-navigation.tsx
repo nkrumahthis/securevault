@@ -23,13 +23,13 @@ export function TopNavigation() {
         <span className="text-xl font-semibold text-gray-900">SecureVault</span>
       </Link>
       <div className="hidden md:flex space-x-6">
-        <Link href="#features" className="text-black hover:text-purple-600 transition-colors">
+        <Link href="/" className="text-black hover:text-purple-600 transition-colors">
           Features
         </Link>
-        <Link href="#pricing" className="text-black hover:text-purple-600 transition-colors">
+        <Link href="/" className="text-black hover:text-purple-600 transition-colors">
           Pricing
         </Link>
-        <Link href="#faq" className="text-black hover:text-purple-600 transition-colors">
+        <Link href="/" className="text-black hover:text-purple-600 transition-colors">
           FAQ
         </Link>
       </div>

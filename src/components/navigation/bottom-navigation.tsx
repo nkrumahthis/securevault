@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { BsFillLightningChargeFill, BsGithub, BsLinkedin, BsTwitterX } from 'react-icons/bs'
+import { BsGithub, BsLinkedin, BsTwitterX } from 'react-icons/bs'
+import { RxLightningBolt } from 'react-icons/rx'
 
 const navItems = [
   { icon: BsGithub, label: 'GitHub', href: 'https://github.com/kkopoku' },
@@ -44,7 +45,7 @@ export function BottomNavigation() {
       <div className="max-w-screen-xl mx-auto flex justify-between items-center">
         <motion.p className="text-sm text-gray-600">
             <span className="flex items-center">
-                <BsFillLightningChargeFill className="w-5 h-5 text-xs mr-1 text-white bg-purple-600 rounded-full p-[4px]" />
+                <RxLightningBolt className="w-7 h-7 font-bold text-xs mr-1 text-white border-white bg-black rounded-full p-[6px]" />
                 Open-source project by &nbsp;<a href="https://k0ranteng.com" className="font-semibold hover:underline hover:text-purple-600 transition-all">Koranteng</a>
             </span>
         </motion.p>
