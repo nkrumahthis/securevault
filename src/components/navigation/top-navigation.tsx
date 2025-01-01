@@ -37,12 +37,12 @@ export function TopNavigation() {
           FAQ
         </Link>
       </div>
-      <div className="flex items-center space-x-4">
+      {/* <div className="flex items-center space-x-4">
         <Button variant="ghost" className="transition-all hidden hover:text-purple-600 md:inline-flex" onClick={()=>router.push("/auth/login")}>
           Log in
         </Button>
         <Button className='hover:bg-purple-600 transition-all' onClick={()=>router.push("/auth/signup")}>Get Started</Button>
-      </div>
+      </div> */}
     </motion.nav>
   )
 }
