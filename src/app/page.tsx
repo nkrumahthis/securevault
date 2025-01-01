@@ -10,7 +10,6 @@ import { ViewMessage } from '@/components/pages/landing-page/view-message'
 import { BottomNavigation } from '@/components/navigation/bottom-navigation'
 
 export default function Home() {
-  const [link, setLink] = useState('')
 
   return (
     <main className="min-h-screen relative font-sans tracking-tighter mb-24">
@@ -20,7 +19,7 @@ export default function Home() {
         <div className="container mx-auto md:py-2 px-4">
           <>
             <HeroSection />
-            <SecureVaultForm setLink={setLink}/>
+            <SecureVaultForm />
             <TrustBadges />
           </>
         </div>
