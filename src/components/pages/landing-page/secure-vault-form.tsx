@@ -9,24 +9,43 @@ import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
-import { toast } from 'react-hot-toast'
+import { Toaster, toast } from 'react-hot-toast'
+import { FaRegCopy } from 'react-icons/fa'
+import { IoMdRefresh } from 'react-icons/io'
 
-export interface SecureVaultFormProps {
-    setPageState: React.Dispatch<React.SetStateAction<string>>;
-    setLink: React.Dispatch<React.SetStateAction<string>>;
-}
-
-export function SecureVaultForm({ setPageState, setLink }: SecureVaultFormProps) {
+export function SecureVaultForm() {
   const [secureText, setSecureText] = useState('')
   const [passphrase, setPassphrase] = useState('')
   const [lifetime, setLifetime] = useState('3600000') // 1 hour in milliseconds
   const [viewNumber, setViewNumber] = useState('1')
   const [recipient, setRecipient] = useState('')
   const [loading, setLoading] = useState(false)
+  const [linkGenerated, setLinkGenerated] = useState("")
 
   const API = process.env.NEXT_PUBLIC_API_URL
 
+  function goToInitialPage() {
+    window.location.pathname = "/";
+    setSecureText("");
+    setPassphrase("");
+    setLifetime('3600000');
+    setViewNumber("1");
+  }
+
+  function copyLink() {
+    navigator.clipboard.writeText(linkGenerated);
+    toast.success('Link copied to clipboard');
+  }
+
+
   async function createLink() {
+
+    if (linkGenerated) {
+      goToInitialPage();
+      setLinkGenerated("");
+      return
+    }
+
     if (!secureText) return toast.error('Please enter a message')
 
     if (recipient) {
@@ -58,8 +77,7 @@ export function SecureVaultForm({ setPageState, setLink }: SecureVaultFormProps)
 
       if (response.ok) {
         toast.success('Link created', { id: toastId })
-        setLink(result.link.link)
-        setPageState('Viewing')
+        setLinkGenerated(result.link.link)
       } else {
         throw new Error(result.message || 'Failed to create link')
       }
@@ -78,6 +96,7 @@ export function SecureVaultForm({ setPageState, setLink }: SecureVaultFormProps)
       transition={{ duration: 0.5, delay: 0.2 }}
       className="flex items-center justify-center px-4"
     >
+      <Toaster />
       <Card className="w-full max-w-6xl shadow-lg">
 
         <CardHeader>
@@ -101,6 +120,7 @@ export function SecureVaultForm({ setPageState, setLink }: SecureVaultFormProps)
               className="relative h-full resize-none"
               value={secureText}
               onChange={(e) => setSecureText(e.target.value)}
+              disabled={linkGenerated.length > 0}
             />
           </div>
 
@@ -123,6 +143,7 @@ export function SecureVaultForm({ setPageState, setLink }: SecureVaultFormProps)
                     className="pr-10"
                     value={passphrase}
                     onChange={(e) => setPassphrase(e.target.value)}
+                    disabled={linkGenerated.length > 0}
                   />
                   <Lock className="absolute right-3 top-2.5 h-4 w-4 text-gray-400" />
                 </div>
@@ -133,7 +154,7 @@ export function SecureVaultForm({ setPageState, setLink }: SecureVaultFormProps)
                   <Clock className="w-4 h-4 text-purple-600" />
                   Lifetime
                 </Label>
-                <Select value={lifetime} onValueChange={setLifetime}>
+                <Select value={lifetime} onValueChange={setLifetime} disabled={linkGenerated.length > 0}>
                   <SelectTrigger id="lifetime">
                     <SelectValue placeholder="Select duration" />
                   </SelectTrigger>
@@ -152,7 +173,7 @@ export function SecureVaultForm({ setPageState, setLink }: SecureVaultFormProps)
                   <Eye className="w-4 h-4 text-purple-600" />
                   View Limit
                 </Label>
-                <Select value={viewNumber} onValueChange={setViewNumber}>
+                <Select value={viewNumber} onValueChange={setViewNumber} disabled={linkGenerated.length > 0}>
                   <SelectTrigger id="views">
                     <SelectValue placeholder="Select views" />
                   </SelectTrigger>
@@ -177,6 +198,7 @@ export function SecureVaultForm({ setPageState, setLink }: SecureVaultFormProps)
                   placeholder="We'll notify them when the link is ready"
                   value={recipient}
                   onChange={(e) => setRecipient(e.target.value)}
+                  disabled={linkGenerated.length > 0}
                 />
               </div>
             </div>
@@ -184,14 +206,34 @@ export function SecureVaultForm({ setPageState, setLink }: SecureVaultFormProps)
         </CardContent>
 
         <CardFooter className="flex flex-col space-y-4">
-          <Button 
+
+          {linkGenerated.length < 1 && <Button
             className="min-w-80 bg-purple-600 hover:bg-purple-700"
             size="lg"
             onClick={createLink}
             disabled={loading}
           >
-            {loading ? 'Creating...' : 'Create Secure Link'}
-          </Button>
+            {loading ? 'Creating...' : (linkGenerated.length > 0) ? 'Generate New Link' : 'Create Secure Link'}
+          </Button>}
+
+          {(linkGenerated.length > 0) && 
+          <div className='flex flex-row gap-2'>
+            <Button
+              className="min-w-80 bg-purple-600 hover:bg-purple-700"
+              size="lg"
+              onClick={copyLink}
+            >
+              {linkGenerated}
+            </Button>
+            <button className="flex items-center justify-center bg-slate-100 hover:bg-slate-300 rounded-md px-2" 
+              onClick={copyLink}>
+              <FaRegCopy />
+            </button>
+            <button className="flex items-center justify-center bg-slate-100 hover:bg-slate-300 rounded-md px-2" 
+              onClick={goToInitialPage}>
+              <IoMdRefresh />
+            </button>
+          </div>}
           <p className="text-xs text-gray-500 text-center">
             Note: The secure link will only work for the specified number of views and will be permanently deleted afterward.
           </p>
