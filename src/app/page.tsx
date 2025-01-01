@@ -1,12 +1,10 @@
 'use client'
 
-import { useState } from 'react'
 import { AnimatedBackground } from '@/components/background/animated-background'
 import { TopNavigation } from '@/components/navigation/top-navigation'
 import { HeroSection } from '@/components/pages/landing-page/hero-section'
 import { SecureVaultForm } from '@/components/pages/landing-page/secure-vault-form'
 import { TrustBadges } from '@/components/pages/landing-page/trust-badges'
-import { ViewMessage } from '@/components/pages/landing-page/view-message'
 import { BottomNavigation } from '@/components/navigation/bottom-navigation'
 
 export default function Home() {

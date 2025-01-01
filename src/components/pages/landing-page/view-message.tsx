@@ -32,7 +32,7 @@ export function ViewMessage({ link }: IViewMessageProps) {
 
     try {
       setLoading(true)
-      let response = await fetch(getLinkUrl, {
+      const response = await fetch(getLinkUrl, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ export function ViewMessage({ link }: IViewMessageProps) {
 
     try {
       setLoading(true)
-      let response = await fetch(getLinkUrl, {
+      const response = await fetch(getLinkUrl, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -175,7 +175,7 @@ export function ViewMessage({ link }: IViewMessageProps) {
 
           {pageStatus === 'NotFound' && (
             <div className="text-center space-y-4">
-              <p>The message you're looking for doesn't exist or has been deleted.</p>
+              <p>The message you&apos;re looking for doesn&apos;t exist or has been deleted.</p>
               <Button className='bg-purple-600 hover:bg-purple-700' onClick={() => router.push("/")}>Create New Message</Button>
             </div>
           )}
