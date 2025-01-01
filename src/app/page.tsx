@@ -10,7 +10,6 @@ import { ViewMessage } from '@/components/pages/landing-page/view-message'
 import { BottomNavigation } from '@/components/navigation/bottom-navigation'
 
 export default function Home() {
-  const [pageState, setPageState] = useState('Normal')
   const [link, setLink] = useState('')
 
   return (
@@ -19,16 +18,11 @@ export default function Home() {
       <div className="relative z-10">
         <TopNavigation />
         <div className="container mx-auto md:py-2 px-4">
-          {pageState === 'Normal' && (
-            <>
-              <HeroSection />
-              <SecureVaultForm setPageState={setPageState} setLink={setLink} />
-              <TrustBadges />
-            </>
-          )}
-          {pageState === 'Viewing' && (
-            <ViewMessage setPageState={setPageState} link={link} />
-          )}
+          <>
+            <HeroSection />
+            <SecureVaultForm setLink={setLink}/>
+            <TrustBadges />
+          </>
         </div>
         <BottomNavigation />
       </div>
