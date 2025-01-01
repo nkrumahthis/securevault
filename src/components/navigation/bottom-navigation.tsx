@@ -45,7 +45,7 @@ export function BottomNavigation() {
         <motion.p className="text-sm text-gray-600">
             <span className="flex items-center">
                 <BsFillLightningChargeFill className="w-5 h-5 text-xs mr-1 text-white bg-purple-600 rounded-full p-[4px]" />
-                Open-source project by <a href="https://k0ranteng.com" className="font-semibold hover:underline hover:text-purple-600 transition-all">&nbsp;Koranteng</a>
+                Open-source project by &nbsp;<a href="https://k0ranteng.com" className="font-semibold hover:underline hover:text-purple-600 transition-all">Koranteng</a>
             </span>
         </motion.p>
         <nav>
