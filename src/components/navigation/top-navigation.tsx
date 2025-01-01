@@ -3,8 +3,12 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { useRouter } from 'next/navigation'
 
 export function TopNavigation() {
+
+  const router = useRouter()
+
   return (
     <motion.nav
       className="py-2 px-6 flex justify-between items-center border-b-[0.5px] border-slate-300 shadow-md"
@@ -34,10 +38,10 @@ export function TopNavigation() {
         </Link>
       </div>
       <div className="flex items-center space-x-4">
-        <Button variant="ghost" className="transition-all hidden hover:text-purple-600 md:inline-flex">
+        <Button variant="ghost" className="transition-all hidden hover:text-purple-600 md:inline-flex" onClick={()=>router.push("/auth/login")}>
           Log in
         </Button>
-        <Button className='hover:bg-purple-600 transition-all'>Get Started</Button>
+        <Button className='hover:bg-purple-600 transition-all' onClick={()=>router.push("/auth/signup")}>Get Started</Button>
       </div>
     </motion.nav>
   )
