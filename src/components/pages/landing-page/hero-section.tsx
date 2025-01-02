@@ -13,7 +13,7 @@ export function HeroSection() {
       <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-gray-900">
         Securely Share Data &nbsp;<span className="block text-purple-600">Effortlessly</span>
       </h1>
-      <p className="mx-auto max-w-2xl text-xs text-gray-600">Send self-destructing messages with military-grade encryption—ideal for sharing sensitive information securely.</p>
+      <p className="mx-auto max-w-2xl text-xs text-gray-600">Securely share sensitive information with encrypted, self-destructing messages.</p>
     </motion.div>
   )
 }
