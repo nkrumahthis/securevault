@@ -2,7 +2,7 @@
 
 import { BottomNavigation } from "@/components/navigation/bottom-navigation";
 import { TopNavigation } from "@/components/navigation/top-navigation";
-import { ViewMessage } from "@/components/pages/landing-page/view-message";
+import { ViewMessage } from "@/components/pages/view-message/view-message";
 import { useParams } from "next/navigation";
 
 export default function ViewMessagePage(){
@@ -12,7 +12,7 @@ export default function ViewMessagePage(){
     return (
         <>
         <TopNavigation />
-        <ViewMessage link={String(id)}/>
+        <ViewMessage id={String(id)}/>
         <BottomNavigation />
         </>
     )

@@ -10,23 +10,25 @@ import { Toaster, toast } from 'react-hot-toast'
 import { FaRegCopy } from 'react-icons/fa'
 import Loading from '@/components/utils/loading'
 import { useRouter } from 'next/navigation'
+import { Maximize2 } from 'lucide-react'
+import { MessageModal } from '@/components/modals/message-modal'
 
 interface IViewMessageProps {
-    link: string
+    id: string
 }
 
-export function ViewMessage({ link }: IViewMessageProps) {
+export function ViewMessage({ id }: IViewMessageProps) {
   const [secureText, setSecureText] = useState('')
   const [passphrase, setPassphrase] = useState('')
   const [loading, setLoading] = useState(true)
   const [pageStatus, setPageStatus] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
+  const [isExpandModalOpen, setIsExpandModalOpen] = useState(false)
   const router = useRouter()
 
   const API = process.env.NEXT_PUBLIC_API_URL
 
   async function checkPageState() {
-    const id = link
     const getLinkUrl = new URL(`${API}/api/v1/link/getLinkDetails`)
     getLinkUrl.searchParams.append('id', String(id))
 
@@ -64,7 +66,6 @@ export function ViewMessage({ link }: IViewMessageProps) {
       return toast('Passphrase is required', { icon: '🚫' })
     }
 
-    const id = link.split('/').pop()
     const getLinkUrl = new URL(`${API}/api/v1/link/getLinkDetails`)
     getLinkUrl.searchParams.append('id', String(id))
     getLinkUrl.searchParams.append('passphrase', passphrase)
@@ -122,22 +123,34 @@ export function ViewMessage({ link }: IViewMessageProps) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      className='flex h-full min-h-[90vh] items-center justify-center'
+      className='flex h-full min-h-screen items-center justify-center'
     >
       <Toaster />
-      <Card className="h-full max-w-2xl mx-auto">
+      <Card className="h-full w-full max-w-[95vw] sm:max-w-md lg:max-w-2xl mx-auto">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">
+          <CardTitle className="text-xl lg:text-2xl font-bold text-center">
             {pageStatus === 'Unauthorized' && 'Enter Passphrase'}
-            {pageStatus === 'MessageReceived' && 'Secret Message'}
+            {pageStatus === 'MessageReceived' && (
+            <div className='flex justify-between items-center'>
+              <p>Secret Message</p>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setIsExpandModalOpen(true)}
+              >
+                <Maximize2 className="w-4 h-4 mr-2" />
+                Expand
+              </Button>
+            </div>)}
             {pageStatus === 'NotFound' && 'Message Not Found'}
             {pageStatus === 'UnexpectedError' && 'Error'}
           </CardTitle>
         </CardHeader>
         <CardContent>
           {pageStatus === 'Unauthorized' && (
-            <form onSubmit={(e) => { e.preventDefault(); submitPassphrase(); }} className="space-y-4 min-w-[400px] w-full">
+            <form onSubmit={(e) => { e.preventDefault(); submitPassphrase(); }} className="flex flex-col space-y-4 lg:min-w-[400px] w-full">
               <Input
+                className='lg:w-full'
                 type="password"
                 placeholder="Enter passphrase"
                 value={passphrase}
@@ -152,7 +165,7 @@ export function ViewMessage({ link }: IViewMessageProps) {
           )}
 
           {pageStatus=== 'MessageReceived' && (
-            <div className="space-y-4 min-w-[600px] w-full">
+            <div className="space-y-4 lg:min-w-[600px] w-full">
               <Textarea
                 value={secureText}
                 readOnly
@@ -188,7 +201,13 @@ export function ViewMessage({ link }: IViewMessageProps) {
           )}
         </CardContent>
       </Card>
+      <MessageModal
+        isOpen={isExpandModalOpen}
+        onClose={() => setIsExpandModalOpen(false)}
+        initialMessage={secureText}
+        onSave={(message) => setSecureText(message)}
+        viewing
+      />
     </motion.div>
   )
 }
-
