@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Shield, Clock, Eye, Mail, Lock, KeyRound } from 'lucide-react'
+import { Shield, Clock, Eye, Mail, Lock, KeyRound, Maximize2 } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
@@ -12,6 +12,7 @@ import { Label } from '@/components/ui/label'
 import { Toaster, toast } from 'react-hot-toast'
 import { FaRegCopy } from 'react-icons/fa'
 import { IoMdRefresh } from 'react-icons/io'
+import { MessageModal } from '@/components/modals/message-modal'
 
 export function SecureVaultForm() {
   const [secureText, setSecureText] = useState('')
@@ -21,6 +22,7 @@ export function SecureVaultForm() {
   const [recipient, setRecipient] = useState('')
   const [loading, setLoading] = useState(false)
   const [linkGenerated, setLinkGenerated] = useState("")
+  const [isExpandModalOpen, setIsExpandModalOpen] = useState(false)
 
   const API = process.env.NEXT_PUBLIC_API_URL
 
@@ -113,7 +115,20 @@ export function SecureVaultForm() {
         <CardContent className="grid md:grid-cols-3 gap-6">
 
           <div className="flex flex-col md:col-span-2 space-y-2">
-            <Label htmlFor="content">Secret Content</Label>
+
+            <div className="flex justify-between items-center">
+              <Label htmlFor="content">Secret Content</Label>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setIsExpandModalOpen(true)}
+                disabled={linkGenerated.length > 0}
+              >
+                <Maximize2 className="w-4 h-4 mr-2" />
+                Expand
+              </Button>
+            </div>
+
             <Textarea
               id="content"
               placeholder="Type your sensitive information here..."
@@ -195,10 +210,12 @@ export function SecureVaultForm() {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="We'll notify them when the link is ready"
+                  placeholder="Sign in to use this feature"
+                  // placeholder="We'll notify them when the link is ready"
                   value={recipient}
                   onChange={(e) => setRecipient(e.target.value)}
-                  disabled={linkGenerated.length > 0}
+                  disabled={true}
+                  // disabled={linkGenerated.length > 0}
                 />
               </div>
             </div>
@@ -208,7 +225,7 @@ export function SecureVaultForm() {
         <CardFooter className="flex flex-col space-y-4">
 
           {linkGenerated.length < 1 && <Button
-            className="min-w-80 bg-purple-600 hover:bg-purple-700"
+            className="lg:min-w-80 bg-purple-600 hover:bg-purple-700"
             size="lg"
             onClick={createLink}
             disabled={loading}
@@ -216,30 +233,37 @@ export function SecureVaultForm() {
             {loading ? 'Creating...' : (linkGenerated.length > 0) ? 'Generate New Link' : 'Create Secure Link'}
           </Button>}
 
-          {(linkGenerated.length > 0) && 
-          <div className='flex flex-row gap-2'>
-            <Button
-              className="min-w-80 bg-purple-600 hover:bg-purple-700"
-              size="lg"
-              onClick={copyLink}
-            >
-              {linkGenerated}
-            </Button>
-            <button className="flex items-center justify-center bg-slate-100 hover:bg-slate-300 rounded-md px-2" 
-              onClick={copyLink}>
-              <FaRegCopy />
-            </button>
-            <button className="flex items-center justify-center bg-slate-100 hover:bg-slate-300 rounded-md px-2" 
-              onClick={goToInitialPage}>
-              <IoMdRefresh />
-            </button>
-          </div>}
+          {(linkGenerated.length > 0) &&
+            <div className='flex flex-row gap-2'>
+              <Button
+                className="lg:min-w-80 bg-purple-600 hover:bg-purple-700"
+                size="lg"
+                onClick={copyLink}
+              >
+                {linkGenerated}
+              </Button>
+              <button className="flex items-center justify-center bg-slate-100 hover:bg-slate-300 rounded-md px-2"
+                onClick={copyLink}>
+                <FaRegCopy />
+              </button>
+              <button className="flex items-center justify-center bg-slate-100 hover:bg-slate-300 rounded-md px-2"
+                onClick={goToInitialPage}>
+                <IoMdRefresh />
+              </button>
+            </div>}
           <p className="text-xs text-gray-500 text-center">
             Note: The secure link will only work for the specified number of views and will be permanently deleted afterward.
           </p>
         </CardFooter>
-
       </Card>
+
+      <MessageModal
+        isOpen={isExpandModalOpen}
+        onClose={() => setIsExpandModalOpen(false)}
+        initialMessage={secureText}
+        onSave={(message) => setSecureText(message)}
+      />
+      
     </motion.div>
   )
 }
