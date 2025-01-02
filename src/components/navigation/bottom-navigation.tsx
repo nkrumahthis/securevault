@@ -43,14 +43,14 @@ export function BottomNavigation() {
       className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-4 px-6 z-50"
     >
       <div className="max-w-screen-xl mx-auto flex justify-between items-center">
-        <motion.p className="text-sm text-gray-600">
-            <span className="flex items-center">
-                <RxLightningBolt className="w-7 h-7 font-bold text-xs mr-1 text-white border-white bg-black rounded-full p-[6px]" />
+        <motion.p className="text-gray-600">
+            <span className="text-xs lg:text-sm flex items-center">
+                <RxLightningBolt className="w-7 h-7 font-bold mr-1 text-white border-white bg-black rounded-full p-[6px]" />
                 Open-source project by &nbsp;<a href="https://k0ranteng.com" className="font-semibold hover:underline hover:text-purple-600 transition-all">Koranteng</a>
             </span>
         </motion.p>
         <nav>
-          <ul className="flex space-x-6">
+          <ul className="flex space-x-2 lg:space-x-6">
             {navItems.map((item) => (
               <li key={item.label}>
                 <Link href={item.href} target="_blank" rel="noopener noreferrer">
