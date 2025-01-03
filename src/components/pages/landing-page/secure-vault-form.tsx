@@ -67,7 +67,7 @@ export function SecureVaultForm() {
     const toastId = toast.loading('Creating link')
 
     try {
-      const response = await fetch(`${API}/api/v1/link/createLink`, {
+      const response = await fetch(`/api/v1/link/createLink`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -26,10 +26,8 @@ export function ViewMessage({ id }: IViewMessageProps) {
   const [isExpandModalOpen, setIsExpandModalOpen] = useState(false)
   const router = useRouter()
 
-  const API = process.env.NEXT_PUBLIC_API_URL
-
   async function checkPageState() {
-    const getLinkUrl = new URL(`${API}/api/v1/link/getLinkDetails`)
+    const getLinkUrl = new URL(`/api/v1/link/getLinkDetails`)
     getLinkUrl.searchParams.append('id', String(id))
 
     try {
@@ -66,7 +64,7 @@ export function ViewMessage({ id }: IViewMessageProps) {
       return toast('Passphrase is required', { icon: '🚫' })
     }
 
-    const getLinkUrl = new URL(`${API}/api/v1/link/getLinkDetails`)
+    const getLinkUrl = new URL(`/api/v1/link/getLinkDetails`)
     getLinkUrl.searchParams.append('id', String(id))
     getLinkUrl.searchParams.append('passphrase', passphrase)
 
