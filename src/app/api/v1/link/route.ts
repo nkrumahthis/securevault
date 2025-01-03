@@ -3,7 +3,7 @@ import { generateRandomString } from "@/lib/utils";
 import sendEmail from "@/lib/email";
 import { runTest, encryptWithBaseKey, encryptWithUserPassphrase, decryptWithBaseKey, decryptWithUserPassphrase } from "@/lib/encryption";
 
-export const POST = async (req: Request, res: Response) => {
+export const POST = async (req: Request) => {
     const body = await req.json();
     const { message, viewNumber, lifetime, passphrase, recipient } = body;
     const baseURL = process.env.SECUREVAULT_WEB;
@@ -58,7 +58,7 @@ export const POST = async (req: Request, res: Response) => {
     }
 };
 
-export const GET = async (req: Request, res: Response) => {
+export const GET = async (req: Request) => {
     try {
         const url = new URL(req.url);
         const id = url.searchParams.get('id');
@@ -122,7 +122,7 @@ export const GET = async (req: Request, res: Response) => {
     }
 };
 
-const testing = async (req: Request, res: Response) => {
+export const testing = async () => {
     console.log("It is getting here!");
     let result = runTest();
     return new Response(
