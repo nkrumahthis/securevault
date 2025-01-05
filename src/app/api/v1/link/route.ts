@@ -2,8 +2,9 @@ import Link from "@/models/link.model";
 import { generateRandomString } from "@/lib/utils";
 import sendEmail from "@/lib/email";
 import { runTest, encryptWithBaseKey, encryptWithUserPassphrase, decryptWithBaseKey, decryptWithUserPassphrase } from "@/lib/encryption";
+import dbConnect from "@/lib/connect";
 
-export const POST = async (req: Request) => {
+export const POST = async (req: Request) => {    
     const body = await req.json();
     const { message, viewNumber, lifetime, passphrase, recipient } = body;
     const baseURL = process.env.SECUREVAULT_WEB;
@@ -25,6 +26,8 @@ export const POST = async (req: Request) => {
     }
 
     try {
+        await dbConnect()
+
         const link = await Link.create({
             message: encryptedMessage,
             viewNumber: viewNumber,
@@ -70,6 +73,8 @@ export const GET = async (req: Request) => {
                 { status: 400 }
             );
         }
+
+        await dbConnect()
 
         const foundLink = await Link.findOne({ my_id: id });
 
